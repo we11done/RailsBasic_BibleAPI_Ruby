@@ -10,11 +10,33 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_03_23_002116) do
-  create_table "bands", force: :cascade do |t|
+ActiveRecord::Schema[7.0].define(version: 2022_03_27_074015) do
+  create_table "books", force: :cascade do |t|
+    t.integer "testament_id", null: false
+    t.string "name"
+    t.integer "verses_count"
+    t.integer "chapter_count"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["testament_id"], name: "index_books_on_testament_id"
+  end
+
+  create_table "testaments", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
+  create_table "verses", force: :cascade do |t|
+    t.integer "book_id", null: false
+    t.integer "chapter"
+    t.text "text"
+    t.integer "verse"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["book_id"], name: "index_verses_on_book_id"
+  end
+
+  add_foreign_key "books", "testaments"
+  add_foreign_key "verses", "books"
 end
